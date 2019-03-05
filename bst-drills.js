@@ -82,28 +82,28 @@ class BinarySearchTree {
     }
   }
 
-  _findMin(){
-    if(!this.left){
+  _findMin() {
+    if (!this.left) {
       return this;
     }
     return this.left._findMin();
   }
 
-  _replaceWith(node){
-    if(this.parent){
-      if(this === this.parent.left){
+  _replaceWith(node) {
+    if (this.parent) {
+      if (this === this.parent.left) {
         this.parent.left = node;
-      } 
-      else if (this === this.parent.right){
+      }
+      else if (this === this.parent.right) {
         this.parent.right = node;
       }
 
-      if(node){
+      if (node) {
         node.parent = this.parent;
       }
     }
     else {
-      if(node){
+      if (node) {
         this.key = node.key;
         this.value = node.value;
         this.left = node.left;
@@ -116,21 +116,80 @@ class BinarySearchTree {
         this.right = null;
       }
     }
-    
+
   }
 }
 
 
 // this function has a quadratic time complexity with O(n^2)
-function findHeight(tree, counter=0){
-  if(tree === null){
+function findHeight(tree, counter = 0) {
+  if (tree === null) {
     return counter;
   }
   else {
-    let leftCounter = findHeight(tree.left, counter+1);
-    let rightCounter = findHeight(tree.right, counter+1);
-    return leftCounter >= rightCounter? leftCounter : rightCounter;
-}} 
+    let leftCounter = findHeight(tree.left, counter + 1);
+    let rightCounter = findHeight(tree.right, counter + 1);
+    return leftCounter >= rightCounter ? leftCounter : rightCounter;
+  }
+}
+
+/*
+    3
+   / \
+   1  4
+  / \ / \
+ 6  9 2  5
+ /
+ 7 
+*/
+const nonSearchTree = {
+  key: 3,
+  left: {
+    key: 1,
+    left: {
+      key: 6,
+      left: {
+        key: 7,
+        left: null,
+        right: null
+      },
+      right: null
+    },
+    right: {
+      key: 9,
+      left: null,
+      right: null
+    }
+  },
+  right: {
+    key: 4,
+    left: {
+      key: 2,
+      left: null,
+      right: null
+    },
+    right: {
+      key: 5,
+      left: null,
+      right: null
+    }
+  }
+};
+
+const isBst = biTree => {
+  if (biTree.left === null && biTree.right === null) {
+    return true;
+  }
+  if (biTree.left === null) {
+    return biTree.key < biTree.right.key ? isBst(biTree.right) : false;
+  } else if (biTree.right === null) {
+    return biTree.left.key < biTree.key ? isBst(biTree.left) : false;
+  } else if (biTree.left.key < biTree.key < biTree.right.key) {
+    return isBst(biTree.left) && isBst(biTree.right);
+  } else {
+    return false;
+  }
+};
 
 function main() {
   const BST = new BinarySearchTree();
@@ -142,8 +201,10 @@ function main() {
   BST.insert(2);
   BST.insert(5);
   BST.insert(7);
-  console.log(BST);
-  console.log(findHeight(BST));
+  // console.log(BST);
+  // console.log(findHeight(BST));
+  console.log(isBst(BST));
+  console.log(isBst(nonSearchTree));
 }
 
 main();
