@@ -191,6 +191,38 @@ const isBst = biTree => {
   }
 };
 
+function createSortedArray(tree, sortedArray=[]){
+
+  if(tree.left === null && tree.right === null){
+    return tree.key;
+  }
+
+  if(tree.right===null){
+    return [createSortedArray(tree.left), tree.key, ...sortedArray]
+  }
+  
+
+
+  return [...sortedArray];
+}
+
+const thirdLargest = tree => {
+
+  //start at root
+  //find the largest down the right
+  //look for children
+  //findMax?
+  // work back, compare to parent, compare to sibling
+  //display this.left, this, this.right
+  //this.left would be the third largest
+
+
+
+
+}
+
+
+
 function main() {
   const BST = new BinarySearchTree();
   BST.insert(3);
@@ -203,8 +235,8 @@ function main() {
   BST.insert(7);
   // console.log(BST);
   // console.log(findHeight(BST));
-  console.log(isBst(BST));
-  console.log(isBst(nonSearchTree));
+  //console.log(isBst(BST));
+  //console.log(isBst(nonSearchTree));
 }
 
 main();
