@@ -81,4 +81,69 @@ class BinarySearchTree {
       throw new Error('Key Error');
     }
   }
+
+  _findMin(){
+    if(!this.left){
+      return this;
+    }
+    return this.left._findMin();
+  }
+
+  _replaceWith(node){
+    if(this.parent){
+      if(this === this.parent.left){
+        this.parent.left = node;
+      } 
+      else if (this === this.parent.right){
+        this.parent.right = node;
+      }
+
+      if(node){
+        node.parent = this.parent;
+      }
+    }
+    else {
+      if(node){
+        this.key = node.key;
+        this.value = node.value;
+        this.left = node.left;
+        this.right = node.right;
+      }
+      else {
+        this.key = null;
+        this.value = null;
+        this.left = null;
+        this.right = null;
+      }
+    }
+    
+  }
 }
+
+
+// this function has a quadratic time complexity with O(n^2)
+function findHeight(tree, counter=0){
+  if(tree === null){
+    return counter;
+  }
+  else {
+    let leftCounter = findHeight(tree.left, counter+1);
+    let rightCounter = findHeight(tree.right, counter+1);
+    return leftCounter >= rightCounter? leftCounter : rightCounter;
+}} 
+
+function main() {
+  const BST = new BinarySearchTree();
+  BST.insert(3);
+  BST.insert(1);
+  BST.insert(4);
+  BST.insert(6);
+  BST.insert(9);
+  BST.insert(2);
+  BST.insert(5);
+  BST.insert(7);
+  console.log(BST);
+  console.log(findHeight(BST));
+}
+
+main();
