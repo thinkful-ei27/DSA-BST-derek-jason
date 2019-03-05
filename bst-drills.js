@@ -211,24 +211,18 @@ const thirdLargest = tree => {
   return sortedArr[sortedArr.length - 3];
 };
 
-const findMinandMaxDistance = (tree, distance = 0, minDistance = 0, maxDistance = 0) => {
-  if (tree.left === null && tree.right === null) {
-    if (distance > maxDistance) { maxDistance = distance; }
-    if (distance < minDistance) { minDistance = distance; }
-    return { minDistance, maxDistance };
+const isBalanced = (tree) => {
+  //on a node, if left/right side is null, check other side. if it has children, return false
+  if(tree.left === null){
+    return !(tree.right && (tree.right.left || tree.right.right));
   }
-  else if (tree.right === null) {
-    return isBalanced(tree.left, distance + 1, minDistance, maxDistance);
+  if(tree.right === null){
+    return !(tree.left && (tree.left.left || tree.left.right));
   }
-  else if (tree.left === null) {
-    return isBalanced(tree.right, distance + 1, minDistance, maxDistance);
-  }
-  else {
-    return isBalanced(tree.left, distance + 1, minDistance, maxDistance);
-  }
+  return isBalanced(tree.left) && isBalanced(tree.right);
 };
-const isBalanced = (tree, distance = 0, minDistance = 0, maxDistance = 0) => {
-};
+
+
 
 function main() {
   const BST = new BinarySearchTree();
@@ -238,13 +232,14 @@ function main() {
   BST.insert(6);
   BST.insert(9);
   BST.insert(2);
-  BST.insert(5);
-  BST.insert(7);
+  //BST.insert(5);
+  //BST.insert(7);
   // console.log(BST);
   // console.log(findHeight(BST));
   //console.log(isBst(BST));
   //console.log(isBst(nonSearchTree));
-  console.log(thirdLargest(BST));
+  //console.log(thirdLargest(BST));
+  console.log(isBalanced(BST));
 }
 
 main();
