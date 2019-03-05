@@ -191,37 +191,44 @@ const isBst = biTree => {
   }
 };
 
-function createSortedArray(tree, sortedArray=[]){
-
-  if(tree.left === null && tree.right === null){
-    return tree.key;
+function createSortedArray(tree, sortedArray = []) {
+  if (tree.left === null && tree.right === null) {
+    return [tree.key];
   }
-
-  if(tree.right===null){
-    return [createSortedArray(tree.left), tree.key, ...sortedArray]
+  else if (tree.right === null) {
+    return [...sortedArray, ...createSortedArray(tree.left), tree.key];
   }
-  
-
-
-  return [...sortedArray];
+  else if (tree.left === null) {
+    return [...sortedArray, tree.key, ...createSortedArray(tree.right)];
+  }
+  else {
+    return [...sortedArray, ...createSortedArray(tree.left), tree.key, ...createSortedArray(tree.right)];
+  }
 }
 
 const thirdLargest = tree => {
+  const sortedArr = createSortedArray(tree);
+  return sortedArr[sortedArr.length - 3];
+};
 
-  //start at root
-  //find the largest down the right
-  //look for children
-  //findMax?
-  // work back, compare to parent, compare to sibling
-  //display this.left, this, this.right
-  //this.left would be the third largest
-
-
-
-
-}
-
-
+const findMinandMaxDistance = (tree, distance = 0, minDistance = 0, maxDistance = 0) => {
+  if (tree.left === null && tree.right === null) {
+    if (distance > maxDistance) { maxDistance = distance; }
+    if (distance < minDistance) { minDistance = distance; }
+    return { minDistance, maxDistance };
+  }
+  else if (tree.right === null) {
+    return isBalanced(tree.left, distance + 1, minDistance, maxDistance);
+  }
+  else if (tree.left === null) {
+    return isBalanced(tree.right, distance + 1, minDistance, maxDistance);
+  }
+  else {
+    return isBalanced(tree.left, distance + 1, minDistance, maxDistance);
+  }
+};
+const isBalanced = (tree, distance = 0, minDistance = 0, maxDistance = 0) => {
+};
 
 function main() {
   const BST = new BinarySearchTree();
@@ -237,6 +244,7 @@ function main() {
   // console.log(findHeight(BST));
   //console.log(isBst(BST));
   //console.log(isBst(nonSearchTree));
+  console.log(thirdLargest(BST));
 }
 
 main();
